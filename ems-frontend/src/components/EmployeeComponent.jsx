@@ -109,7 +109,7 @@ const EmployeeComponent = () => {
                          type='text' 
                          placeholder='Enter First Name'
                          name='firstname'
-                         className='form-control'
+                         className={'form-control '+ (errors.firstName ? 'is-invalid' : '')}
                          value={firstName} 
                          onChange={(e) => setFirstName(e.target.value)}
                          >
@@ -122,11 +122,12 @@ const EmployeeComponent = () => {
                          type='text' 
                          placeholder='Enter Last Name'
                          name='lastname'
-                         className='form-control'
+                         className={'form-control '+ (errors.lastName ? 'is-invalid' : '')}
                          value={lastName} 
                          onChange={(e) => setLastName(e.target.value)}
                          >
                         </input>
+                        { errors.lastName && <div className='invalid-feedback'>{errors.lastName}</div>}
                     </div>
                     <div className='form-group mb-2'>
                         <label className='form-label'>Email:</label>
@@ -134,11 +135,12 @@ const EmployeeComponent = () => {
                          type='text' 
                          placeholder='Enter Email'
                          name='email'
-                         className='form-control '
+                         className={'form-control '+ (errors.email ? 'is-invalid' : '')}
                          value={email} 
                          onChange={(e) => setEmail(e.target.value)}
                          >
                         </input>
+                        { errors.email && <div className='invalid-feedback'>{errors.email}</div>}
                     </div>
                     <button className='btn btn-success' onClick={saveorUpdateEmployee}>Submit</button>
                 </form>
