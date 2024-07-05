@@ -1,6 +1,6 @@
 
 import './App.css'
-import HelloGlobe from './Helloglobe'
+import 'bootstrap/dist/css/bootstrap.min.css'
 import EmployeeComponent from './components/EmployeeComponent'
 import FooterComponent from './components/FooterComponent'
 import HeaderComponent from './components/HeaderComponent'
