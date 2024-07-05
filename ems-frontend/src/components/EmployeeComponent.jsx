@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { createEmployee } from '../services/EmployeeService'
+import React, { useEffect, useState } from 'react'
+import { createEmployee, getEmployee } from '../services/EmployeeService'
 import { useNavigate, useParams} from 'react-router-dom'
 
 const EmployeeComponent = () => {
@@ -17,19 +17,42 @@ const EmployeeComponent = () => {
 
     const navigator =  useNavigate();
 
-    function saveEmployee(e){
+    useEffect(()=>{
+        if(id){
+            getEmployee(id).then((response)=>{
+                setFirstName(response.data.firstName);
+                setLastName(response.data.lastName);
+                setEmail(response.data.email);
+            }).catch(error=>{
+                console.error(error);
+            })
+        }
+    },[id])
+
+    function saveorUpdateEmployee(e){
         e.preventDefault();
          
         if(validateForm()){
+
             const employee = {firstName, lastName, email}
             console.log(employee)
 
-            createEmployee(employee).then((response)=>{
-            console.log(response.data);
-            navigator('/employees');
-            });
+            if(id){
+                updateEmployee(id, employee).then((response)=>{
+                    console.log(response.data);
+                    navigator('/employees');
+                }).catch(error =>{
+                    console.error(error);
+                })            
+            }else{
+                createEmployee(employee).then((response)=>{
+                    console.log(response.data);
+                    navigator('/employees')
+                }).catch(error =>{
+                    console.error(error);
+                })
+            }
         }
-
     }
 
    function validateForm(){
@@ -64,7 +87,7 @@ const EmployeeComponent = () => {
 
     function pageTitle(){
         if(id){
-            return <h2 className='text-center'>Edit Employee</h2>
+            return <h2 className='text-center'>Update Employee</h2>
         }else{
             return <h2 className='text-center'>Add Employee</h2>
         }
@@ -117,7 +140,7 @@ const EmployeeComponent = () => {
                          >
                         </input>
                     </div>
-                    <button className='btn btn-success' onClick={saveEmployee}>Submit</button>
+                    <button className='btn btn-success' onClick={saveorUpdateEmployee}>Submit</button>
                 </form>
         </div>
         </div>
